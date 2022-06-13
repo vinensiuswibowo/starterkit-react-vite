@@ -1,22 +1,20 @@
+import { authState } from "@/atoms/authState";
+import withProtectedPage from "@/components/hocs/withProtectedPage";
+import { Button } from "antd";
 import { NavLink } from "react-router-dom";
-import Table from "../components/Table";
-import Form from "../components/Form";
-import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import LoginPage from "./login";
 
-export default function HomePage() {
-  const [data, set] = useState({
-    name: "",
-    age: "",
-    id: "",
-  });
+function HomePage() {
+  const auth = useRecoilValue(authState);
   return (
     <div>
-      <NavLink to="/">Home</NavLink>
-      <NavLink to="/article">Article</NavLink>
-      <br />
-      <br />
-      <Form data={data} />
-      <Table set={set} />
+      <div>{JSON.stringify(auth)}</div>
+      <NavLink to="/logout">
+        <Button type="primary">logout</Button>
+      </NavLink>
     </div>
   );
 }
+
+export default withProtectedPage(HomePage, LoginPage);

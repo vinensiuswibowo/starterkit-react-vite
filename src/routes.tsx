@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Route, Routes } from "react-router-dom";
 
-const PRESERVED = import.meta.globEager("/src/pages/(_app|404).tsx");
+const PRESERVED = import.meta.globEager("/src/pages/(_app|_404).tsx");
 const ROUTES = import.meta.globEager("/src/pages/**/[a-z[]*.tsx");
 
 const preserved: any = Object.keys(PRESERVED).reduce((preserved, file) => {
@@ -20,7 +20,7 @@ const routes = Object.keys(ROUTES).map((route) => {
 
 function App() {
   const App = preserved?.["_app"] || Fragment;
-  const NotFound = preserved?.["404"] || Fragment;
+  const NotFound = preserved?.["_404"] || Fragment;
   return (
     <App>
       <Routes>
