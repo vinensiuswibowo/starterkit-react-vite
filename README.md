@@ -30,3 +30,29 @@ Here are some examples of file paths and their corresponding URLs for commonly u
 - [axios](https://axios-http.com/docs/intro)
 - [Vite](https://vitejs.dev/config/)
 
+
+export const getTable = selectorFamily({
+  key: 'getTable',
+  get:
+    (name: string | string[]) =>
+    ({ get }: any) => {
+      if (Array.isArray(name)) {
+        const listedArray: any[] = name.reduce((acc: any[], val) => {
+          const table = get(masterState).find((d: any) => d.name === val);
+          if (table) {
+            acc.push((table.data || []).map((d: any) => ({ ...d, value: d.code, label: d.name })));
+          } else {
+            acc.push([]);
+          }
+          return acc;
+        }, []);
+        return listedArray;
+      }
+      const table = get(masterState).find((d: any) => d.name === name);
+      if (!table) return [];
+      return (table.data || []).map((d: any) => ({ ...d, value: d.code, label: d.name }));
+    },
+});
+
+const [currencies, status] = useRecoilValue(getTable(['program_currency', 'status']));
+
